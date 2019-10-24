@@ -1,7 +1,6 @@
 import requests
 import os
-
-from aiohttp.web_response import json_response
+from dataclasses import dataclass
 
 url = 'https://api.weather.yandex.ru/v1/forecast?lat=55.75396&lon=37.620393&extra=true'
 
@@ -11,12 +10,13 @@ def read_week_forecast():
 
 
 def __read_json():
-    response = requests.get(url, headers={'X-Yandex-API-Key': os.environ['X-YANDEX-API-KEY']})
+    response = requests.get(
+        url, headers={'X-Yandex-API-Key': os.environ['X-YANDEX-API-KEY']})
     return response.json()
 
 
 def __json_to_forecasts(json):
-    day_forecasts = list(map(lambda forecast_json: __json_to_forecast(forecast_json), json['forecasts']))
+    day_forecasts = list(map(__json_to_forecast, json['forecasts']))
     return WeekForecast(day_forecasts[0].date, day_forecasts)
 
 
@@ -27,15 +27,13 @@ def __json_to_forecast(json):
     return Forecast(date, temperature)
 
 
+@dataclass
 class Forecast:
-
-    def __init__(self, date, temperature):
-        self.date = date
-        self.temperature = temperature
+    date: str
+    temperature: str
 
 
+@dataclass
 class WeekForecast:
-
-    def __init__(self, date, day_forecasts):
-        self.date = date
-        self.day_forecasts = day_forecasts
+    date: str
+    day_forecasts: str

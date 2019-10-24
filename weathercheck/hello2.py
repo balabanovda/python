@@ -1,7 +1,7 @@
 import schedule
 import time
 from requests.exceptions import HTTPError
-import dataBaseConnect
+import db.connection
 import yandexWeather
 
 weekWeather = []
@@ -11,10 +11,10 @@ date = []
 def job():
     print("I'm working...")
     try:
-        db = dataBaseConnect.ConnectDB.connect()
+        db = connection.connect()
         week_forecast = yandexWeather.read_week_forecast()
         db.execute(
-            dataBaseConnect.ConnectDB.executiv(str(week_forecast.date), str(week_forecast.day_forecasts[0].temperature),
+            connection.executiv(str(week_forecast.date), str(week_forecast.day_forecasts[0].temperature),
                                                str(week_forecast.day_forecasts[1].temperature),
                                                str(week_forecast.day_forecasts[2].temperature),
                                                str(week_forecast.day_forecasts[3].temperature),
