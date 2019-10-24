@@ -13,7 +13,7 @@ def job():
     print("I'm working...")
     try:
         cc = connection.connect()
-        week_forecast = yandex_weather.read_week_forecast()
+        week_forecast = yandex_weather.request_week_forecast()
         cc.execute(
            connection.executiv(str(week_forecast.date), str(week_forecast.day_forecasts[0].temperature),
                                                str(week_forecast.day_forecasts[1].temperature),
