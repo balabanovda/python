@@ -1,8 +1,9 @@
 import schedule
 import time
 
-from db import connection
 from weather import yandex_weather
+from db import connection
+from scheduler import scheduler
 
 weekWeather = []
 date = []
@@ -26,7 +27,4 @@ def job():
 
 
 def run():
-    schedule.every().day.at("20:44").do(job)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    scheduler.run_daily('22:55', job)
