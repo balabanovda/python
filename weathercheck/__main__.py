@@ -1,6 +1,4 @@
-from app.hello2 import job
-from app.hello2 import run
+from weathercheck.app.hello2 import run, job 
 
 if __name__ == "__main__":
-    # job()
-    run()
+    job()

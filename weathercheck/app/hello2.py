@@ -1,9 +1,9 @@
 import schedule
 import time
 
-from weather import yandex_weather
-from db import connection
-from scheduler import scheduler
+from weathercheck.weather import yandex_weather
+from weathercheck.db import connection
+from weathercheck.scheduler import scheduler
 
 weekWeather = []
 date = []
@@ -11,19 +11,29 @@ date = []
 
 def job():
     print("I'm working...")
-    try:
-        cc = connection.connect()
+    with connection.connect() as connection1:
         week_forecast = yandex_weather.request_week_forecast()
-        cc.execute(
-           connection.executiv(str(week_forecast.date), str(week_forecast.day_forecasts[0].temperature),
-                                               str(week_forecast.day_forecasts[1].temperature),
-                                               str(week_forecast.day_forecasts[2].temperature),
-                                               str(week_forecast.day_forecasts[3].temperature),
-                                               str(week_forecast.day_forecasts[4].temperature),
-                                               str(week_forecast.day_forecasts[5].temperature),
-                                               str(week_forecast.day_forecasts[6].temperature)))
-    except Exception as err:
-        print(f'Other error occurred: {err}')
+        connection1.execute(
+            connection.executiv(str(week_forecast.date), str(week_forecast.day_forecasts[0].temperature),
+                                str(week_forecast.day_forecasts[1].temperature),
+                                str(week_forecast.day_forecasts[2].temperature),
+                                str(week_forecast.day_forecasts[3].temperature),
+                                str(week_forecast.day_forecasts[4].temperature),
+                                str(week_forecast.day_forecasts[5].temperature),
+                                str(week_forecast.day_forecasts[6].temperature)))
+    # try:
+    #     cc = connection.connect()
+    #     week_forecast = yandex_weather.request_week_forecast()
+    #     cc.execute(
+    #        connection.executiv(str(week_forecast.date), str(week_forecast.day_forecasts[0].temperature),
+    #                                            str(week_forecast.day_forecasts[1].temperature),
+    #                                            str(week_forecast.day_forecasts[2].temperature),
+    #                                            str(week_forecast.day_forecasts[3].temperature),
+    #                                            str(week_forecast.day_forecasts[4].temperature),
+    #                                            str(week_forecast.day_forecasts[5].temperature),
+    #                                            str(week_forecast.day_forecasts[6].temperature)))
+    # except Exception as err:
+    #     print(f'Other error occurred: {err}')
 
 
 def run():
