@@ -2,7 +2,7 @@ import schedule
 import time
 from requests.exceptions import HTTPError
 import db.connection
-import yandexWeather
+import weather.yandexWeather
 
 weekWeather = []
 date = []
@@ -27,7 +27,8 @@ def job():
     #     print(f'Other error occurred: {err.__traceback__.}')
 
 
-schedule.every().day.at("22:22").do(job)
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+def run():
+    schedule.every().day.at("22:22").do(job)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
